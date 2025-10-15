@@ -13,11 +13,11 @@ For example, if you are making a thermostat your file directory should look like
 
 **Thremostat Project Folder**<br>
 │─ *thermostat.m*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or whatever your main file is called)<br>
-│─ *Initialize_Oled.m*<br>
+│─ *initialize_oled.m*<br>
 │─ *display_write.m*<br>
 │─ *display_draw_image.m*<br>
 │─ *test_write_draw.m*<br>
-│─ *clearDisplay.m*<br>
+│─ *clear_display.m*<br>
 │─ *LICENSE*<br>
 │─ *README.md*<br>
 │─ assets<br>
@@ -25,7 +25,7 @@ For example, if you are making a thermostat your file directory should look like
 │&nbsp;&nbsp;&nbsp;&nbsp;│─ characters<br>
 
 ## Functions
-### Initialize_Oled()
+### initialize_oled()
 Initializes and cleans up SSD1315 OLED Display provided with Grove Beginner Kit for Arduino.
 ```
 Inputs:
@@ -42,7 +42,7 @@ oled | I2C object for Grove OLED Display
 a | Arduino object with I2C Library
 ```
 <br><br>
-### clearDisplay()
+### clear_display()
 Clears OLED display
 ```
 Inputs:

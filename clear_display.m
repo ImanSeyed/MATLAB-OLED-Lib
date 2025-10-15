@@ -1,4 +1,4 @@
-function clearDisplay(oled)
+function clear_display(oled)
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Clear Display
 % Author: Aradhya Chawla

@@ -17,7 +17,7 @@ clear all; close all; clc
 % connected)
 a = arduino;
 % Initialize OLED device
-[oled,a] = Initialize_Oled(a,0);
+[oled,a] = initialize_oled(a,0);
 
 % Get system date and time info
 t = datetime('now','TimeZone','local');
@@ -64,7 +64,7 @@ if column_start < 0
     column_start = (128 - date_txt_length)/2;
 end
 % Call to write date
-clearDisplay(oled);
+clear_display(oled);
 display_write(oled, column_start, 128, 1, 2, font_scale, date_text)
 
 % Set font scale and write hours and minutes to screen
@@ -134,7 +134,7 @@ while ~stop
             column_start = (128 - date_txt_length)/2;
         end
         
-        clearDisplay(oled);
+        clear_display(oled);
         display_write(oled, column_start, 128, 1, 2, font_scale, ...
             date_text)
         
@@ -218,5 +218,5 @@ while ~stop
     stop = readDigitalPin(a, 'D6');
 end
 % Clear display before disconnecting
-clearDisplay(oled);
+clear_display(oled);
 clear all

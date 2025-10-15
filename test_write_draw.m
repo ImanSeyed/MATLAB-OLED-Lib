@@ -12,7 +12,7 @@
 %   REFERENCE
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 %   WRITE
-% function display_write(oled, display_mode, clear_display, column_start,
+% function display_write(oled, column_start, ...
 % column_end, page_start, page_end, font_scale, input_text)
 %
 %   DRAW
@@ -25,18 +25,18 @@
 %a = arduino;
 
 % Initialize OLED device
-%[oled,a] = Initialize_Oled(a,0);
+%[oled,a] = initialize_oled(a,0);
 
 % Constants
 testString = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ:+-';
 % 
 % % Expected input for writing text
 % display_write(oled, 1, 1, 1, 128, 1, 8, 1, testString)
-% clearDisplay(oled);
+% clear_display(oled);
 % % pause(3);
 % Expected input for drawing sample image
 display_write(oled, 0, 1, 'sample', 10, 100)
-clearDisplay(oled);
+clear_display(oled);
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % TESTING FOR WRITING

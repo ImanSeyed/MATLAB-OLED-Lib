@@ -1,4 +1,4 @@
-function [oled,a] = Initialize_Oled(a, print_ready, varargin)
+function [oled,a] = initialize_oled(a, print_ready, varargin)
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Initialize OLED
 % Author: Aradhya Chawla
@@ -90,10 +90,10 @@ write(oled, [hex2dec('00'), hex2dec('AF')]); % Turn on the display
 
 % Clear garbage data, show startup flair, clear display
 flair = '---------------- MATLAB OLED LIB ARADHYA CHAWLA ----------------';
-clearDisplay(oled);
+clear_display(oled);
 display_write(oled,1,128,1,8,1,flair);
 pause(1);
-clearDisplay(oled);
+clear_display(oled);
 
 % Ready statement
 if print_ready == true
