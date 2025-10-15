@@ -1,20 +1,22 @@
+% Copyright (c) 2024 Aradhya Chawla
+% SPDX-License-Identifier: MIT
+% See the LICENSE file in the project root for license information.
+%
+% GitHub: https://github.com/AradhyaC
+
 function display_draw_image(oled, imagePath, minThreshold, maxThreshold)
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% Draw an image on the display
-% Author: Aradhya Chawla
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% FUNCTION
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% Draws image on the display
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% INPUTS
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% oled : oled device object
-% imagePath : load sample or provide path to image
-% minThreshold : minimum (black) threshold of image
-% maxThreshold : maximum (white) threshold of image
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% display_draw_image - Draws image on the display
+%
+%  Input Arguments
+%    oled - OLED I2C device object
+%      I2C object
+%    imagePath - Path to image
+%      'sample' | character vector | string scalar
+%    minThreshold - Minimum (black) threshold
+%      0 to 255
+%    maxThreshold - Maximum (white) threshold (must be greater than minThreshold)
+%      0 to 255
+
     % maximum threshold must always be larger than minimum threshold
     if maxThreshold <= minThreshold
         waitfor(msgbox("Maximum threshold must be greater than the minimum " + ...

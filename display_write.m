@@ -1,25 +1,29 @@
+% Copyright (c) 2024 Aradhya Chawla
+% SPDX-License-Identifier: MIT
+% See the LICENSE file in the project root for license information.
+%
+% GitHub: https://github.com/AradhyaC
+
 function display_write(oled, column_start, column_end, page_start, ...
     page_end, font_scale, input_text)
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% Display Write
-% Author: Aradhya Chawla
-% Github: https://github.com/AradhyaC
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% FUNCTION
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% Writes text on the display
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% INPUTS
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% oled : oled device object
-% column_start : starting point of columns (1 to 128)
-% column_end : ending point of columns (1 to 128)
-% page_start : starting point of pages (1 to 8)
-% page_end : ending point of pages (1 to 8)
-% font_scale : only 1 and 2 scales supported currently
-% input_text : text to display on screen
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+% display_write - Write text on the display
+%
+%  Input Arguments
+%    oled - OLED I2C device object
+%      I2C object
+%    column_start - Starting column
+%      1 to 128
+%    column_end - Ending column
+%      1 to 128
+%    page_start - Starting page (1 to 8)
+%      1 to 8
+%    page_end - Ending page
+%      1 to 8
+%    font_scale - Changes the dimensions of the output picture
+%      1 | 2
+%    input_text - Text to display on screen
+%      character vector
+
     column_start = column_start - 1;
     column_end = column_end - 1;
     page_start = page_start - 1;

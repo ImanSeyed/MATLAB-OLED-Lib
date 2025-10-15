@@ -1,9 +1,13 @@
+% Copyright (c) 2024 Aradhya Chawla
+% SPDX-License-Identifier: MIT
+% See the LICENSE file in the project root for license information.
+%
+% GitHub: https://github.com/AradhyaC
+
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Clock Example using OLED Library for MATLAB
-% Author: Aradhya Chawla
-% Github: https://github.com/AradhyaC
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% FUNCTION
+
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Generates an updating clock face with time, date, city, and timezone.
 % Stops when D6 button is held for some time.

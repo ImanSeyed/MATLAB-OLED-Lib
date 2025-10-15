@@ -1,28 +1,31 @@
+% Copyright (c) 2024 Aradhya Chawla
+% SPDX-License-Identifier: MIT
+% See the LICENSE file in the project root for license information.
+%
+% GitHub: https://github.com/AradhyaC
+
 function [oled,a] = initialize_oled(a, print_ready, varargin)
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% Initialize OLED
-% Author: Aradhya Chawla
-% Github: https://github.com/AradhyaC
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% FUNCTION
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% Initializes and cleans up SSD1315 OLED Display provided with
-% Grove Beginner Kit for Arduino
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% INPUT
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% a : Arduino object (with or without I2C Library)
-% print_ready : Displays ready statement if true
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% OPTIONAL INPUT
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% i2cAddress : i2c address for the Oled display (defualt='0X3C' for most)
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% RETURN
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% oled : I2C object for Grove OLED Display
-% a : Arduino object with I2C Library
+% initialize_oled - Initialize and clean up SSD1315 OLED display
+%
+%  Syntax
+%    [oled, a] = initialize_oled(a, print_ready)
+%    [oled, a] = initialize_oled(a, print_ready, i2cAddress)
+%
+%  Input Arguments
+%    a - Arduino object (with or without I2C Library)
+%    print_ready - Print status to Command Window
+%      logical scalar
+%
+%  Optional Input
+%    i2cAddress - I2C address of OLED display
+%      '0x3C' (default) | character vector | string scalar
+%
+%  Output Arguments
+%    oled - OLED I2C device object
+%      I2C object
+%
+%    a - Arduino connection (after ensuring I2C library)
+%      Arduino object
 
 % Checks re-initializes arduino object 
 % if it is not initalized with I2C Library
@@ -65,7 +68,7 @@ else
     end
 end
 
-% Grove OLED Display I2C Object
+% OLED Display I2C Object
 oled = device(a,'I2CAddress', i2cAddress);
 
 % Display initialization
