@@ -15,6 +15,7 @@ For example, if you are making a thermostat your file directory should look like
 │─ *thermostat.m*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(or whatever your main file is called)<br>
 │─ *Initialize_Oled.m*<br>
 │─ *display_write.m*<br>
+│─ *display_draw_image.m*<br>
 │─ *test_write_draw.m*<br>
 │─ *clearDisplay.m*<br>
 │─ *LICENSE*<br>
@@ -49,15 +50,10 @@ oled | I2C object for Grove OLED Display
 ```
 <br><br>
 ### display_write()
-Writes text or draws image as per user-defined requirements
+Writes text on the display
 ```
 Inputs:
 oled | oled device object<br>
-display_mode | 1 = write text, 0 = draw image (more options coming soon)<br>
-clear_display | 1 = clear display before proceeding, 0 = do not clear<br>
-```
-```
-Inputs if display_mode = 1<br>
 column_start | starting point of columns (1 to 128)<br>
 column_end | ending point of columns (1 to 128)<br>
 page_start | starting point of pages (1 to 8)<br>
@@ -65,12 +61,15 @@ page_end | ending point of pages (1 to 8)<br>
 font_scale | only 1 and 2 scales supported currently<br>
 input_text | text to display on screen<br>
 ```
+### display_draw_image()
+Draws on the display
 ```
-Inputs if display_mode = 0<br>
+Inputs:
 imagePath | load sample or provide path to image<br>
 minThreshold | minimum (black) threshold of image<br>
 maxThreshold | maximum (white) threshold of image
 ```
+<br><br>
 ## Example files & Testing
 ### test_write_draw.m
 This is a test file for demonstration and testing.<br>The first two expected function calls demonstrate the writing and drawing capabilities of the function.

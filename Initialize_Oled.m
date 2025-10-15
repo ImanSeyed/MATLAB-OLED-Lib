@@ -90,7 +90,8 @@ write(oled, [hex2dec('00'), hex2dec('AF')]); % Turn on the display
 
 % Clear garbage data, show startup flair, clear display
 flair = '---------------- MATLAB OLED LIB ARADHYA CHAWLA ----------------';
-display_write(oled,1,1,1,128,1,8,1,flair)
+clearDisplay(oled);
+display_write(oled,1,128,1,8,1,flair);
 pause(1);
 clearDisplay(oled);
 

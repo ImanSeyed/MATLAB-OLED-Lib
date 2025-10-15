@@ -64,7 +64,8 @@ if column_start < 0
     column_start = (128 - date_txt_length)/2;
 end
 % Call to write date
-display_write(oled, 1, 1, column_start, 128, 1, 2, font_scale, date_text)
+clearDisplay(oled);
+display_write(oled, column_start, 128, 1, 2, font_scale, date_text)
 
 % Set font scale and write hours and minutes to screen
 font_scale = 2;
@@ -72,7 +73,7 @@ time_text = sprintf('%s:%s',h,mnt);
 time_text_length = length(time_text)*8*font_scale;
 column_start = (128 - time_text_length)/2;
 
-display_write(oled, 1, 0, column_start, 128, 3, 4, font_scale, time_text)
+display_write(oled, column_start, 128, 3, 4, font_scale, time_text)
 
 % Set font scale and write timezone zone to screen
 font_scale = 1;
@@ -80,7 +81,7 @@ zone_text = char(zone);
 zone_text_length = length(zone_text)*8;
 column_start = (128 - zone_text_length)/2;
 
-display_write(oled, 1, 0, column_start, 128, 6, 6, font_scale, zone_text)
+display_write(oled, column_start, 128, 6, 6, font_scale, zone_text)
 
 
 % Set font scale and write timezone info to screen
@@ -89,7 +90,7 @@ tZone_text = char(tZone);
 tZone_text_length = length(tZone_text)*8;
 column_start = (128 - tZone_text_length)/2;
 
-display_write(oled, 1, 0, column_start, 128, 7, 7, font_scale, tZone_text)
+display_write(oled, column_start, 128, 7, 7, font_scale, tZone_text)
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % TIME UPDATE LOOP
@@ -133,7 +134,8 @@ while ~stop
             column_start = (128 - date_txt_length)/2;
         end
         
-        display_write(oled, 1, 1, column_start, 128, 1, 2, font_scale, ...
+        clearDisplay(oled);
+        display_write(oled, column_start, 128, 1, 2, font_scale, ...
             date_text)
         
         d = d_new;
@@ -147,7 +149,7 @@ while ~stop
         time_text_length = length(time_text)*8*font_scale;
         column_start = (128 - time_text_length)/2;
         
-        display_write(oled, 1, 0, column_start, 128, 3, 4, font_scale, ...
+        display_write(oled, column_start, 128, 3, 4, font_scale, ...
             time_text)
         h = h_new;
         mnt = mnt_new;
@@ -158,7 +160,7 @@ while ~stop
         zone_text_length = length(zone_text)*8;
         column_start = (128 - zone_text_length)/2;
         
-        display_write(oled, 1, 0, column_start, 128, 6, 6, ...
+        display_write(oled, column_start, 128, 6, 6, ...
             font_scale, zone_text)
         
         
@@ -168,7 +170,7 @@ while ~stop
         tZone_text_length = length(tZone_text)*8;
         column_start = (128 - tZone_text_length)/2;
         
-        display_write(oled, 1, 0, column_start, 128, 7, 7, ...
+        display_write(oled, column_start, 128, 7, 7, ...
             font_scale, tZone_text)
     elseif ~strcmp(mnt_new, mnt) || ~strcmp(h_new, h)
         % Update minutes and hours
@@ -177,7 +179,7 @@ while ~stop
         time_text_length = length(time_text)*8*font_scale;
         column_start = (128 - time_text_length)/2;
         
-        display_write(oled, 1, 0, column_start, 128, 3, 4, font_scale, ...
+        display_write(oled, column_start, 128, 3, 4, font_scale, ...
             time_text)
         h = h_new;
         mnt = mnt_new;
@@ -205,7 +207,7 @@ while ~stop
             column_start = (128 - date_txt_length)/2;
         end
         
-        display_write(oled, 1, 0, column_start, 128, 1, 2, font_scale, ...
+        display_write(oled, column_start, 128, 1, 2, font_scale, ...
             date_text)
         
         d = d_new;

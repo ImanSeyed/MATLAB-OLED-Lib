@@ -1,4 +1,5 @@
-function display_write(oled, display_mode, clear_display, varargin)
+function display_write(oled, column_start, column_end, page_start, ...
+    page_end, font_scale, input_text)
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % Display Write
 % Author: Aradhya Chawla
@@ -7,16 +8,11 @@ function display_write(oled, display_mode, clear_display, varargin)
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % FUNCTION
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% Writes text or draws image as per user-defined requirements
+% Writes text on the display
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% REQUIRED INPUTS
+% INPUTS
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % oled : oled device object
-% display_mode : 1 = write text, 0 = draw image (more options coming soon)
-% clear_display : 1 = clear display before proceeding, 0 = do not clear
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% INPUTS IF display_mode = 1
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % column_start : starting point of columns (1 to 128)
 % column_end : ending point of columns (1 to 128)
 % page_start : starting point of pages (1 to 8)
@@ -24,35 +20,22 @@ function display_write(oled, display_mode, clear_display, varargin)
 % font_scale : only 1 and 2 scales supported currently
 % input_text : text to display on screen
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% INPUTS IF display_mode = 0
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-% imagePath : load sample or provide path to image
-% minThreshold : minimum (black) threshold of image
-% maxThreshold : maximum (white) threshold of image
+    column_start = column_start - 1;
+    column_end = column_end - 1;
+    page_start = page_start - 1;
+    page_end = page_end - 1;
 
-if display_mode == 1
-    % Checks
-    if nargin < 9
-        waitfor(msgbox("Missing Values","Error","error"));
-        return
-    end
-    
     % Check if column starts and end points are correct
-    column_start = varargin{1} - 1;
-    column_end = varargin{2} - 1;
     if column_start > 127 || column_start < 0 || ...
             column_end > 127 || column_end < 0
         waitfor(msgbox("Invalid column_start and/or column_end values", ...
             "Error","error"));
-        return
     elseif column_end <= column_start
         waitfor(msgbox("column_end must be greater than column_start"));
         return
     end
 
     % Check if page start and end points are correct
-    page_start = varargin{3} - 1;
-    page_end = varargin{4} - 1;
     if page_start > 7 || page_start < 0 || page_end > 7 || page_end < 0
         waitfor(msgbox("Invalid page_start and/or page_end values", ...
             "Error","error"));
@@ -63,7 +46,6 @@ if display_mode == 1
     end
 
     % Check that supported font scale is requested
-    font_scale = varargin{5};
     if font_scale < 1
         waitfor(msgbox("font_scale cannot be less than 1","Error","error"));
         return
@@ -74,7 +56,6 @@ if display_mode == 1
     end
 
     % make sure input text is not empty
-    input_text = varargin{6};
     if (sum(isstrprop(input_text,'alpha')) + ...
             sum(isstrprop(input_text,'digit'))) - ...
             sum(isstrprop(input_text,'wspace')) < 0 || ...
@@ -82,14 +63,7 @@ if display_mode == 1
         waitfor(msgbox("input_text cannot be empty","Error","error"));
         return
     end
-    
-    % Clear display if requested
-    if clear_display == 1
-        clearDisplay(oled);
-    elseif clear_display ~= 0
-        waitfor(msgbox("Clear display can only be 0 or 1","Error","error"));
-        return
-    end
+
 
     % Variables
     import_characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ:+-';
@@ -235,143 +209,4 @@ if display_mode == 1
             end
         end
     end
-% ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ DRAW IMAGE ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-elseif display_mode == 0
-    if nargin < 5
-        waitfor(msgbox("Missing Values","Error","error"));
-        return
-    end
-
-    % Variables
-    imagePath = varargin{1};
-    minThreshold = varargin{2};
-    maxThreshold = varargin{3};
-
-    % maximum threshold must always be larger than minimum threshold
-    if maxThreshold <= minThreshold
-        waitfor(msgbox("Maximum threshold must be greater than the minimum " + ...
-            "threshold","Error","error"));
-        return
-    end
-
-    % Clear display if requested
-    if clear_display == 1
-        clearDisplay(oled);
-    elseif clear_display ~= 0
-        waitfor(msgbox("Clear display can only be 0 or 1","Error","error"));
-        return
-    end
-
-    % Loading image
-    if strcmp(imagePath, 'sample')
-        % Photo by Helena Lopes from Pexels: 
-        % https://www.pexels.com/photo/white-horse-on-green-grass-1996333/
-        image = imread('assets/images/sample.png');
-    else
-        try
-            image = imread(imagePath);
-        catch ME
-            msgbox(["File does not exist or"; "Invalid file path"], ...
-                'Error', 'error')
-            return
-        end
-    end
-
-    % Convert to grayscale for monochromatic display
-    bwImage = rgb2gray(image);
-
-    % Get picture height and width
-    [pH,pW] = size(bwImage);
-
-    % Defining screen dimensions
-    screen_height = 64;
-    screen_width = 128;
-
-    % Get picture height to screen height ratio
-    pHS_ratio = pH/screen_height;
-    % Get picture width to screen width ratio
-    pWS_ratio = pW/screen_width;
-
-    % Determine and proceed to scale along the largest dimension
-    if pHS_ratio > pWS_ratio
-        c = 1;
-        image_resized = imresize(bwImage,[screen_height,NaN]);
-        [pHr,pWr] = size(image_resized);
-        wlRemainder = floor((screen_width - pWr)/2);
-        wrRemainder = ceil((screen_width - pWr)/2);
-        hlRemainder = '0';
-        hrRemainder = '0';
-    elseif pHS_ratio < pWS_ratio
-        c = 2;
-        image_resized = imresize(bwImage,[NaN,screen_width]);
-        [pHr,pWr] = size(image_resized);
-        wlRemainder = '0';
-        wrRemainder = '0';
-        hlRemainder = floor((screen_height - pHr)/2);
-        hrRemainder = ceil((screen_height - pHr)/2);
-    else
-        c = 3;
-        image_resized = imresize(bwImage,[screen_height,screen_width]);
-        [pHr,pWr] = size(image_resized);
-        wlRemainder = floor((screen_width - pWr)/2);
-        wrRemainder = ceil((screen_width - pWr)/2);
-        hlRemainder = floor((screen_height - pHr)/2);
-        hrRemainder = ceil((screen_height - pHr)/2);
-    end
-    
-    % Converting to binary matrix
-    thresholds = [minThreshold maxThreshold];
-    
-    for i = 1:pHr
-        for j = 1:pWr
-            if image_resized(i,j) < thresholds(2) && ...
-                    image_resized(i,j) > thresholds(1)
-                binImage(i,j) = '0';
-            else
-                binImage(i,j) = '1';
-            end
-        end
-    end
-    
-    % Filling in gaps
-    f1 = repmat(hlRemainder,pHr,wlRemainder);
-    f2 = repmat(hrRemainder,pHr,wrRemainder);
-    if c == 1
-        final_image = [f1 binImage f2];
-    elseif c == 2
-        final_image = [f1;binImage;f2];
-    else
-        final_image = binImage;
-    end
-    temp_Count = 1;
-    for i = 1:8:64
-        image_rows(:,:,temp_Count) = final_image(i:i+7,:);
-        temp_Count = temp_Count + 1;
-    end
-    temp_Count = 1;
-    for i = 1:8
-        temp_mat = image_rows(:,:,i);
-        for j = 1:8:128
-            image_matrix(:,:,temp_Count) = temp_mat(:,j:j+7);
-            temp_Count = temp_Count + 1;
-        end
-    end
-    
-    % Set column i2cAddress
-    write(oled, [hex2dec('00'), hex2dec('21'), 0, 127]);
-    % Set page i2cAddress
-    write(oled, [hex2dec('00'), hex2dec('22'), 0, 7]);
-    
-    % Draw to screen
-    for i = 1:128
-        temp_mat = flipud(image_matrix(:,:,i));
-        temp_mat = temp_mat';
-        for j = 1:8
-            write(oled,[hex2dec('40'), bin2dec(string(temp_mat(j,:)))])
-        end
-    end
-else
-    waitfor(msgbox("Display mode can only be between 0 and 1", ...
-        "Error","error"));
-        return
 end
