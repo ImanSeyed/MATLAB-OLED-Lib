@@ -54,8 +54,7 @@ if nargin == 3
         return
     end
 elseif nargin > 3
-    msgbox("ERROR: Too many inputs","Error","error")
-    return
+    error("ERROR: Too many inputs");
 else
     i2cAddress = '0x3C';
     if any(strcmp(input_check, i2cAddress))

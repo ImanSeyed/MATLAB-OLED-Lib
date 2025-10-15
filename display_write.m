@@ -32,31 +32,23 @@ function display_write(oled, column_start, column_end, page_start, ...
     % Check if column starts and end points are correct
     if column_start > 127 || column_start < 0 || ...
             column_end > 127 || column_end < 0
-        waitfor(msgbox("Invalid column_start and/or column_end values", ...
-            "Error","error"));
+        error("Invalid column_start and/or column_end values");
     elseif column_end <= column_start
-        waitfor(msgbox("column_end must be greater than column_start"));
-        return
+        error("column_end must be greater than column_start");
     end
 
     % Check if page start and end points are correct
     if page_start > 7 || page_start < 0 || page_end > 7 || page_end < 0
-        waitfor(msgbox("Invalid page_start and/or page_end values", ...
-            "Error","error"));
-        return
+        error("Invalid page_start and/or page_end values");
     elseif page_end < page_start
-        waitfor(msgbox("page_end must be greater than page_start"))
-        return
+        error("page_end must be greater than page_start");
     end
 
     % Check that supported font scale is requested
     if font_scale < 1
-        waitfor(msgbox("font_scale cannot be less than 1","Error","error"));
-        return
+        error("font_scale cannot be less than 1");
     elseif font_scale > 2
-        waitfor(msgbox("font_scale greater than 2 is not supported", ...
-            "Error","error"));
-        return
+        error("font_scale greater than 2 is not supported");
     end
 
     % make sure input text is not empty
@@ -64,8 +56,7 @@ function display_write(oled, column_start, column_end, page_start, ...
             sum(isstrprop(input_text,'digit'))) - ...
             sum(isstrprop(input_text,'wspace')) < 0 || ...
             strcmp(input_text,'')
-        waitfor(msgbox("input_text cannot be empty","Error","error"));
-        return
+        error("input_text cannot be empty","Error","error");
     end
 
 

@@ -19,9 +19,8 @@ function display_draw_image(oled, imagePath, minThreshold, maxThreshold)
 
     % maximum threshold must always be larger than minimum threshold
     if maxThreshold <= minThreshold
-        waitfor(msgbox("Maximum threshold must be greater than the minimum " + ...
-            "threshold","Error","error"));
-        return
+        error("Maximum threshold (%d) must be greater than the minimum (%d)", ...
+            maxThreshold, minThreshold);
     end
 
     % Loading image
@@ -33,9 +32,7 @@ function display_draw_image(oled, imagePath, minThreshold, maxThreshold)
         try
             image = imread(imagePath);
         catch ME
-            msgbox(["File does not exist or"; "Invalid file path"], ...
-                'Error', 'error')
-            return
+            error("File does not exist or invalid file path");
         end
     end
 
