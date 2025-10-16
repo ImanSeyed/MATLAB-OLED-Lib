@@ -35,6 +35,10 @@ function display_write(oled, text, options)
     page_end = options.page_end - 1;
     font_scale = options.font_scale;
 
+    if isstring(text)
+        text = convertStringsToChars(text);
+    end
+
     % Variables
     import_characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ:+-';
     space_char = 0;
