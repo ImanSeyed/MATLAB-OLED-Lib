@@ -1,9 +1,3 @@
-% Copyright (c) 2024 Aradhya Chawla
-% SPDX-License-Identifier: MIT
-% See the LICENSE file in the project root for license information.
-%
-% GitHub: https://github.com/AradhyaC
-
 function [oled,a] = initialize_oled(a, options)
 % initialize_oled - Initialize and clean up SSD1315 OLED display
 %
@@ -25,6 +19,9 @@ function [oled,a] = initialize_oled(a, options)
 %
 %    a - Arduino connection (after ensuring I2C library)
 %      Arduino object
+
+%   Copyright 2024 Aradhya Chawla
+    
     arguments
         a (1,1) arduino
         options.print_log {mustBeNumericOrLogical} = false

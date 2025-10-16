@@ -1,11 +1,5 @@
-% Copyright (c) 2024 Aradhya Chawla
-% SPDX-License-Identifier: MIT
-% See the LICENSE file in the project root for license information.
-%
-% GitHub: https://github.com/AradhyaC
-
 function display_draw_image(oled, options)
-% display_draw_image - Draws image on the display
+% display_draw_image - Draw image on the display
 %
 %  Input Arguments
 %    oled - OLED I2C device object
@@ -16,6 +10,9 @@ function display_draw_image(oled, options)
 %      0 to 255
 %    max_threshold - Maximum (white) threshold (must be greater than minThreshold)
 %      0 to 255
+
+%   Copyright 2024 Aradhya Chawla
+
     arguments
         oled (1,1) matlabshared.i2c.device
         options.path {mustBeText} = 'assets/images/sample.png'

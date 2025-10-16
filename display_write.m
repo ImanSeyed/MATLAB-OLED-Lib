@@ -1,9 +1,3 @@
-% Copyright (c) 2024 Aradhya Chawla
-% SPDX-License-Identifier: MIT
-% See the LICENSE file in the project root for license information.
-%
-% GitHub: https://github.com/AradhyaC
-
 function display_write(oled, text, options)
 % display_write - Write text on the display
 %
@@ -22,6 +16,9 @@ function display_write(oled, text, options)
 %      8 (default) | 1 to 8
 %    font_scale - Changes the dimensions of the output picture
 %      1 (default) | 2
+
+%   Copyright 2024 Aradhya Chawla
+
     arguments
         oled (1,1) matlabshared.i2c.device
         text {mustBeText, mustBeNonempty}
