@@ -21,7 +21,7 @@ clear all; close all; clc
 % connected)
 a = arduino;
 % Initialize OLED device
-[oled,a] = initialize_oled(a,0);
+[oled,a] = initialize_oled(a);
 
 % Get system date and time info
 t = datetime('now','TimeZone','local');
@@ -56,7 +56,6 @@ m_chars = char(m{1});
 m_short = m_chars(1:3);
 
 % Set font scale and write day date month year to screen
-font_scale = 1;
 date_text = sprintf('%s %s %s %s',d{1},date,m{1},string(y(1)));
 date_txt_length = length(date_text)*8;
 column_start = (128 - date_txt_length)/2; % getting starting position
@@ -69,7 +68,7 @@ if column_start < 0
 end
 % Call to write date
 clear_display(oled);
-display_write(oled, column_start, 128, 1, 2, font_scale, date_text)
+display_write(oled, date_text, column_start=column_start, page_end=2);
 
 % Set font scale and write hours and minutes to screen
 font_scale = 2;
@@ -77,24 +76,25 @@ time_text = sprintf('%s:%s',h,mnt);
 time_text_length = length(time_text)*8*font_scale;
 column_start = (128 - time_text_length)/2;
 
-display_write(oled, column_start, 128, 3, 4, font_scale, time_text)
+display_write(oled, time_text, column_start=column_start, page_start=3, ...
+    page_end=4, font_scale=2);
 
 % Set font scale and write timezone zone to screen
-font_scale = 1;
 zone_text = char(zone);
 zone_text_length = length(zone_text)*8;
 column_start = (128 - zone_text_length)/2;
 
-display_write(oled, column_start, 128, 6, 6, font_scale, zone_text)
+display_write(oled, zone_text, column_start=column_start, page_start=6, ...
+    page_end=6);
 
 
 % Set font scale and write timezone info to screen
-font_scale = 1;
 tZone_text = char(tZone);
 tZone_text_length = length(tZone_text)*8;
 column_start = (128 - tZone_text_length)/2;
 
-display_write(oled, column_start, 128, 7, 7, font_scale, tZone_text)
+display_write(oled, tZone_text, column_start=column_start, ...
+    page_start=7, page_end=7);
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % TIME UPDATE LOOP
@@ -125,7 +125,6 @@ while ~stop
         m_chars = char(m_new{1});
         m_short = m_chars(1:3);
 
-        font_scale = 1;
         date_text = sprintf('%s %s %s %s',d_new{1},date_new, ...
             m_new{1},string(y_new(1)));
         date_txt_length = length(date_text)*8;
@@ -139,8 +138,8 @@ while ~stop
         end
         
         clear_display(oled);
-        display_write(oled, column_start, 128, 1, 2, font_scale, ...
-            date_text)
+        display_write(oled, date_text, column_start=column_start, ...
+            page_end=2, font_scale=font_scale);
         
         d = d_new;
         m = m_new;
@@ -153,38 +152,35 @@ while ~stop
         time_text_length = length(time_text)*8*font_scale;
         column_start = (128 - time_text_length)/2;
         
-        display_write(oled, column_start, 128, 3, 4, font_scale, ...
-            time_text)
+        display_write(oled, time_text, column_start=column_start, ...
+            page_start=3, page_end=4, font_scale=font_scale);
         h = h_new;
         mnt = mnt_new;
         
         % Update timezone zone on screen
-        font_scale = 1;
         zone_text = char(zone_new);
         zone_text_length = length(zone_text)*8;
         column_start = (128 - zone_text_length)/2;
         
-        display_write(oled, column_start, 128, 6, 6, ...
-            font_scale, zone_text)
+        display_write(oled, zone_text, column_start=column_start, ...
+            page_start=6, page_end=6);
         
         
         % Update timezone info on screen
-        font_scale = 1;
         tZone_text = char(tZone_new);
         tZone_text_length = length(tZone_text)*8;
         column_start = (128 - tZone_text_length)/2;
         
-        display_write(oled, column_start, 128, 7, 7, ...
-            font_scale, tZone_text)
+        display_write(oled, tZone_text, columnt_start=column_start, ...
+            page_start=7, page_end=7);
     elseif ~strcmp(mnt_new, mnt) || ~strcmp(h_new, h)
         % Update minutes and hours
-        font_scale = 2;
         time_text = sprintf('%s:%s',h_new,mnt_new);
         time_text_length = length(time_text)*8*font_scale;
         column_start = (128 - time_text_length)/2;
         
-        display_write(oled, column_start, 128, 3, 4, font_scale, ...
-            time_text)
+        display_write(oled, time_text, column_start=column_start, ...
+            page_start=3, page_end=4, font_scale=2);
         h = h_new;
         mnt = mnt_new;
 
@@ -198,7 +194,6 @@ while ~stop
         m_chars = char(m_new{1});
         m_short = m_chars(1:3);
 
-        font_scale = 1;
         date_text = sprintf('%s %s %s %s',d_new{1},date_new, ...
             m_new{1},string(y_new(1)));
         date_txt_length = length(date_text)*8;
@@ -211,8 +206,8 @@ while ~stop
             column_start = (128 - date_txt_length)/2;
         end
         
-        display_write(oled, column_start, 128, 1, 2, font_scale, ...
-            date_text)
+        display_write(oled, date_text, column_start=column_start, ...
+            page_end=2);
         
         d = d_new;
         m = m_new;

@@ -22,12 +22,11 @@
 testString = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ:+-';
 % 
 % Expected input for writing text
-%display_write(oled, 1, 128, 1, 8, 1, testString)
-%clear_display(oled);
+%display_write(oled, testString)
+clear_display(oled);
 %pause(3);
 % Expected input for drawing sample image
-display_write(oled, 'sample', 10, 100)
-clear_display(oled);
+display_draw_image(oled, path="assets/images/sample.png");
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 % TESTING FOR WRITING

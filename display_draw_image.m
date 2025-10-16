@@ -4,38 +4,40 @@
 %
 % GitHub: https://github.com/AradhyaC
 
-function display_draw_image(oled, imagePath, minThreshold, maxThreshold)
+function display_draw_image(oled, options)
 % display_draw_image - Draws image on the display
 %
 %  Input Arguments
 %    oled - OLED I2C device object
 %      I2C object
-%    imagePath - Path to image
-%      'sample' | character vector | string scalar
-%    minThreshold - Minimum (black) threshold
+%    image_path - Path to image
+%      character vector | string scalar
+%    min_threshold - Minimum (black) threshold
 %      0 to 255
-%    maxThreshold - Maximum (white) threshold (must be greater than minThreshold)
+%    max_threshold - Maximum (white) threshold (must be greater than minThreshold)
 %      0 to 255
-
+    arguments
+        oled (1,1) matlabshared.i2c.device
+        options.path {mustBeText} = 'assets/images/sample.png'
+        options.min_threshold (1,1) {mustBeInteger, mustBeInRange(options.min_threshold,0,255)} = 10
+        options.max_threshold (1,1) {mustBeInteger, mustBeInRange(options.max_threshold,0,255)} = 100
+    end
+    
+    path = options.path;
+    min_threshold = options.min_threshold;
+    max_threshold = options.max_threshold;
     % maximum threshold must always be larger than minimum threshold
-    if maxThreshold <= minThreshold
+    if max_threshold <= min_threshold
         error("Maximum threshold (%d) must be greater than the minimum (%d)", ...
-            maxThreshold, minThreshold);
+            max_threshold, min_threshold);
     end
 
-    % Loading image
-    if strcmp(imagePath, 'sample')
-        % Photo by Helena Lopes from Pexels: 
-        % https://www.pexels.com/photo/white-horse-on-green-grass-1996333/
-        image = imread('assets/images/sample.png');
-    else
-        try
-            image = imread(imagePath);
-        catch ME
-            error("File does not exist or invalid file path");
-        end
+    try
+        image = imread(path);
+    catch ME
+        error("File does not exist or invalid file path");
     end
-
+    
     % Convert to grayscale for monochromatic display
     bwImage = rgb2gray(image);
 
@@ -79,7 +81,7 @@ function display_draw_image(oled, imagePath, minThreshold, maxThreshold)
     end
     
     % Converting to binary matrix
-    thresholds = [minThreshold maxThreshold];
+    thresholds = [min_threshold max_threshold];
     
     for i = 1:pHr
         for j = 1:pWr

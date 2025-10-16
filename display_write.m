@@ -4,61 +4,39 @@
 %
 % GitHub: https://github.com/AradhyaC
 
-function display_write(oled, column_start, column_end, page_start, ...
-    page_end, font_scale, input_text)
+function display_write(oled, text, options)
 % display_write - Write text on the display
 %
 %  Input Arguments
 %    oled - OLED I2C device object
 %      I2C object
-%    column_start - Starting column
-%      1 to 128
-%    column_end - Ending column
-%      1 to 128
-%    page_start - Starting page (1 to 8)
-%      1 to 8
-%    page_end - Ending page
-%      1 to 8
-%    font_scale - Changes the dimensions of the output picture
-%      1 | 2
-%    input_text - Text to display on screen
+%    text - Text to display on screen
 %      character vector
-
-    column_start = column_start - 1;
-    column_end = column_end - 1;
-    page_start = page_start - 1;
-    page_end = page_end - 1;
-
-    % Check if column starts and end points are correct
-    if column_start > 127 || column_start < 0 || ...
-            column_end > 127 || column_end < 0
-        error("Invalid column_start and/or column_end values");
-    elseif column_end <= column_start
-        error("column_end must be greater than column_start");
+%    column_start - Starting column
+%      1 (default) | 1 to 128
+%    column_end - Ending column
+%      128 (default) | 1 to 128
+%    page_start - Starting page (1 to 8)
+%      1 (default) | 1 to 8
+%    page_end - Ending page
+%      8 (default) | 1 to 8
+%    font_scale - Changes the dimensions of the output picture
+%      1 (default) | 2
+    arguments
+        oled (1,1) matlabshared.i2c.device
+        text {mustBeText, mustBeNonempty}
+        options.column_start {mustBeInteger, mustBeInRange(options.column_start,1,128)} = 1
+        options.column_end {mustBeInteger, mustBeInRange(options.column_end,1,128)} = 128
+        options.page_start {mustBeInteger, mustBeInRange(options.page_start,1,8)} = 1
+        options.page_end {mustBeInteger, mustBeInRange(options.page_end,1,8)} = 8
+        options.font_scale {mustBeInteger, mustBeInRange(options.font_scale,1,2)} = 1
     end
 
-    % Check if page start and end points are correct
-    if page_start > 7 || page_start < 0 || page_end > 7 || page_end < 0
-        error("Invalid page_start and/or page_end values");
-    elseif page_end < page_start
-        error("page_end must be greater than page_start");
-    end
-
-    % Check that supported font scale is requested
-    if font_scale < 1
-        error("font_scale cannot be less than 1");
-    elseif font_scale > 2
-        error("font_scale greater than 2 is not supported");
-    end
-
-    % make sure input text is not empty
-    if (sum(isstrprop(input_text,'alpha')) + ...
-            sum(isstrprop(input_text,'digit'))) - ...
-            sum(isstrprop(input_text,'wspace')) < 0 || ...
-            strcmp(input_text,'')
-        error("input_text cannot be empty","Error","error");
-    end
-
+    column_start = options.column_start - 1;
+    column_end = options.column_end - 1;
+    page_start = options.page_start - 1;
+    page_end = options.page_end - 1;
+    font_scale = options.font_scale;
 
     % Variables
     import_characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ:+-';
@@ -125,7 +103,7 @@ function display_write(oled, column_start, column_end, page_start, ...
     end
     
     % Text to print to screen
-    txt_to_print = upper(input_text);
+    txt_to_print = upper(text);
     
     % Set column i2cAddress (from 0 - 127)
     write(oled, [0, hex2dec('21'), col_start, col_end]);

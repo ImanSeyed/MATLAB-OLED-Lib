@@ -4,20 +4,19 @@
 %
 % GitHub: https://github.com/AradhyaC
 
-function [oled,a] = initialize_oled(a, print_ready, varargin)
+function [oled,a] = initialize_oled(a, options)
 % initialize_oled - Initialize and clean up SSD1315 OLED display
 %
 %  Syntax
-%    [oled, a] = initialize_oled(a, print_ready)
-%    [oled, a] = initialize_oled(a, print_ready, i2cAddress)
+%    [oled, a] = initialize_oled(a);
+%    [oled, a] = initialize_oled(a, print_log=true);
+%    [oled, a] = initialize_oled(a, print_log=true, i2c_address='0x3C');
 %
 %  Input Arguments
 %    a - Arduino object (with or without I2C Library)
-%    print_ready - Print status to Command Window
-%      logical scalar
-%
-%  Optional Input
-%    i2cAddress - I2C address of OLED display
+%    print_log - Log OLED status to Command Window
+%      false (default) | true
+%    i2c_address - I2C address of OLED display
 %      '0x3C' (default) | character vector | string scalar
 %
 %  Output Arguments
@@ -26,6 +25,14 @@ function [oled,a] = initialize_oled(a, print_ready, varargin)
 %
 %    a - Arduino connection (after ensuring I2C library)
 %      Arduino object
+    arguments
+        a (1,1) arduino
+        options.print_log {mustBeNumericOrLogical} = false
+        options.i2c_address {mustBeText} = '0x3C' 
+    end
+    
+    print_log = options.print_log;
+    i2c_address = options.i2c_address;
 
     % Checks re-initializes arduino object 
     % if it is not initalized with I2C Library
@@ -43,32 +50,17 @@ function [oled,a] = initialize_oled(a, print_ready, varargin)
     input_check = scanI2CBus(a,0);
     
     % Checks if OLED Screen is attached
-    if nargin == 3
-        i2cAddress = varargin{1};
-        if any(strcmp(input_check, i2cAddress))
-            if print_ready == true
-                disp('::: OLED Screen Found :::')
-            end
-        elseif ~any(strcmp(input_check, i2cAddress))
-            disp('::: OLED SCREEN NOT FOUND :::')
-            return
+    if any(strcmp(input_check, i2c_address))
+        if print_log == true
+            disp('::: OLED Screen Found :::')
         end
-    elseif nargin > 3
-        error("ERROR: Too many inputs");
-    else
-        i2cAddress = '0x3C';
-        if any(strcmp(input_check, i2cAddress))
-            if print_ready == true
-                disp('::: OLED Screen Found :::')
-            end
-        elseif ~any(strcmp(input_check, i2cAddress))
-            disp('::: OLED SCREEN NOT FOUND :::')
-            return
-        end
+    elseif ~any(strcmp(input_check, i2c_address))
+        disp('::: OLED SCREEN NOT FOUND :::')
+        return
     end
     
     % OLED Display I2C Object
-    oled = device(a,'I2CAddress', i2cAddress);
+    oled = device(a,'I2CAddress', i2c_address);
     
     % Display initialization
     % Turn off the display
@@ -93,12 +85,12 @@ function [oled,a] = initialize_oled(a, print_ready, varargin)
     % Clear garbage data, show startup flair, clear display
     flair = '---------------- MATLAB OLED LIB ARADHYA CHAWLA ----------------';
     clear_display(oled);
-    display_write(oled,1,128,1,8,1,flair);
+    display_write(oled, flair);
     pause(1);
     clear_display(oled);
     
     % Ready statement
-    if print_ready == true
+    if print_log == true
         disp('::: OLED Display Initialized :::')
     end
 end

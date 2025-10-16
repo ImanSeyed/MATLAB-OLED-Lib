@@ -11,6 +11,10 @@ function clear_display(oled)
 %    oled - OLED I2C device object
 %      I2C object
 
+    arguments
+        oled (1,1) matlabshared.i2c.device
+    end
+
     % Set column i2cAddress
     write(oled, [hex2dec('00'), hex2dec('21'), hex2dec('00'), hex2dec('7F')]); 
     % Set page i2cAddress
