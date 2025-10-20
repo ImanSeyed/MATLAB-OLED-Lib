@@ -17,10 +17,18 @@
 
 clear all; close all; clc
 
-% Get Arduino object (define port and  board type if more than one
-% connected)
-a = arduino;
-% Initialize OLED device
+% Find any available and connected serial ports
+available_ports = serialportlist("available");
+
+% Check if at least one port is available before attempting to connect
+if ~isempty(available_ports)
+    % Assume the last available port corresponds to the Arduino device
+    port = available_ports(end);
+    a = arduino(port);
+else
+    error('No available serial ports found. Please connect your Arduino and try again.');
+end
+
 [oled,a] = initialize_oled(a);
 
 % Get system date and time info
@@ -218,4 +226,4 @@ while ~stop
 end
 % Clear display before disconnecting
 clear_display(oled);
-clear all
+clearvars;
