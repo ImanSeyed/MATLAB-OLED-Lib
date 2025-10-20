@@ -9,7 +9,7 @@
 % of library
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-%clear all; close all; clc
+clearvars;
 
 % Find any available and connected serial ports
 available_ports = serialportlist("available");
