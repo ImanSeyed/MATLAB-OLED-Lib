@@ -16,20 +16,19 @@
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 clearvars;
+addpath(fileparts(fileparts(mfilename('fullpath'))));
 
-% Find any available and connected serial ports
-available_ports = serialportlist("available");
-
-% Check if at least one port is available before attempting to connect
-if ~isempty(available_ports)
-    % Assume the last available port corresponds to the Arduino device
-    port = available_ports(end);
-    a = arduino(port);
-else
-    error('No available serial ports found. Please connect your Arduino and try again.');
+try
+    a = auto_connect_arduino();
+    
+    % Initialize explicitly
+    % a = arduino(port, ...);
+catch ME
+    error([ME.identifier, ': ', ME.message ...
+        ' Explicitly initialize the Arduino object.']);
 end
 
-[oled,a] = initialize_oled(a);
+oled = initialize_oled(a);
 
 % Get system date and time info
 t = datetime('now','TimeZone','local');
@@ -224,6 +223,3 @@ while ~stop
     end
     stop = readDigitalPin(a, 'D6');
 end
-% Clear display before disconnecting
-clear_display(oled);
-clearvars;

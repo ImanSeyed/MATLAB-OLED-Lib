@@ -41,6 +41,10 @@ function display_write(oled, text, options)
     page_start = options.page_start - 1;
     page_end = options.page_end - 1;
     font_scale = options.font_scale;
+    
+    % Resolve assets dir relative to THIS file, not current folder
+    base_dir   = fileparts(mfilename('fullpath'));
+    assets_dir = fullfile(base_dir, 'assets', 'characters');
 
     if isstring(text)
         text = convertStringsToChars(text);
@@ -58,11 +62,11 @@ function display_write(oled, text, options)
     % Generate and store binary version of character images
     for i = 1:length(import_characters)
         if import_characters(i) == ':'
-            charread = imread('assets/characters/colon.png');
+            imgPath = fullfile(assets_dir, 'colon.png');
         else
-            charread = imread('assets/characters/'+ ...
-                string(import_characters(i))+'.png');
+            imgPath = fullfile(assets_dir, sprintf('%s.png', import_characters(i)));
         end
+        charread = imread(imgPath);
         charread = rgb2gray(charread);
         [h,w] = size(charread);
         for x = 1:1:h

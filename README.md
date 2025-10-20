@@ -33,18 +33,14 @@ clearvars;
 port = "/dev/ttyUSB0";
 a = arduino(port, "Uno", Libraries="I2C");
 
-[oled, a] = initialize_oled(a);
+oled = initialize_oled(a);
 display_write(oled, "Example Text", font_scale=2);
 pause(10);
 clear_display(oled);
 display_draw_image(oled, path="assets/images/sample.png", min_threshold=10, max_threshold=100);
 ```
 
-Additional example scripts are included in the repository:
-
-- **`test_write_draw.m`**: Demonstrates text and image rendering capabilities for quick testing.
-- **`clock_example.m`**: Showcases the library’s full functionality by creating a live clock that displays the current date, time, city, and timezone, updating every minute.
-
+Additional example scripts are included in the `examples/` directory to demonstrate the API.
 
 ## Additional Notes
 * If you don't remove the OLED screen from the base board, the default I2C address of the OLED screen is `0x3C`.
