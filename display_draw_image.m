@@ -1,6 +1,12 @@
 function display_draw_image(oled, options)
 % display_draw_image - Draw image on the display
 %
+%  This function reads an image, converts it to grayscale, and then 
+%  displays it on the OLED screen using I2C communication.
+%  Since the OLED is monochrome (black and white), the image is binarized 
+%  using two user-defined thresholds that determine which pixels appear 
+%  black (min) or white (max) on the screen.
+%
 %  Input Arguments
 %    oled - OLED I2C device object
 %      I2C object
@@ -8,7 +14,7 @@ function display_draw_image(oled, options)
 %      character vector | string scalar
 %    min_threshold - Minimum (black) threshold
 %      0 to 255
-%    max_threshold - Maximum (white) threshold (must be greater than minThreshold)
+%    max_threshold - Maximum (white) threshold
 %      0 to 255
 
 %   Copyright 2024 Aradhya Chawla

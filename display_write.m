@@ -1,6 +1,13 @@
 function display_write(oled, text, options)
 % display_write - Write text on the display
 %
+%  This function writes text to OLED screen using page addressing mode.
+%  OLED display memory is divided into 8 horizontal "pages", each 8 pixels
+%  tall and 128 pixels wide (for a 128x64 display).
+%  Each page represents one 8-pixel-high band of vertical pixels across 
+%  the screen. Writing data to a page updates those 8 vertical pixels in
+%  the specified columns.
+%
 %  Input Arguments
 %    oled - OLED I2C device object
 %      I2C object
@@ -10,7 +17,7 @@ function display_write(oled, text, options)
 %      1 (default) | 1 to 128
 %    column_end - Ending column
 %      128 (default) | 1 to 128
-%    page_start - Starting page (1 to 8)
+%    page_start - Starting page
 %      1 (default) | 1 to 8
 %    page_end - Ending page
 %      8 (default) | 1 to 8
