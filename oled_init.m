@@ -1,9 +1,9 @@
-function oled = initialize_oled(a, options)
-% initialize_oled - Initialize and clean up SSD1315 OLED display
+function oled = oled_init(a, options)
+% oled_init - Initialize and clean up SSD1315 OLED display
 %
 %  Syntax
-%    oled = initialize_oled(a);
-%    oled = initialize_oled(a, i2c_address='0x3C');
+%    oled = oled_init(a);
+%    oled = oled_init(a, i2c_address='0x3C');
 %
 %  Input Arguments
 %    a - Arduino object (with or without I2C Library)
@@ -69,8 +69,8 @@ function oled = initialize_oled(a, options)
     write(oled, [hex2dec('00'), hex2dec('AF')]);                               % Turn on the display
     
     % Display greeting
-    clear_display(oled);
-    display_write(oled, 'OLED DISPLAY INITIALIZED');
+    oled_clear(oled);
+    oled_write(oled, 'OLED DISPLAY INITIALIZED');
     pause(1);
-    clear_display(oled);
+    oled_clear(oled);
 end

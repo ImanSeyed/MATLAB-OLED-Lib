@@ -19,7 +19,7 @@ clearvars;
 addpath(fileparts(fileparts(mfilename('fullpath'))));
 
 try
-    a = auto_connect_arduino();
+    a = arduino_auto_connect();
     
     % Initialize explicitly
     % a = arduino(port, ...);
@@ -28,7 +28,7 @@ catch ME
         ' Explicitly initialize the Arduino object.']);
 end
 
-oled = initialize_oled(a);
+oled = oled_init(a);
 
 % Get system date and time info
 t = datetime('now','TimeZone','local');
@@ -74,8 +74,8 @@ if column_start < 0
     column_start = (128 - date_txt_length)/2;
 end
 % Call to write date
-clear_display(oled);
-display_write(oled, date_text, column_start=column_start, page_end=2);
+oled_clear(oled);
+oled_write(oled, date_text, column_start=column_start, page_end=2);
 
 % Set font scale and write hours and minutes to screen
 font_scale = 2;
@@ -83,7 +83,7 @@ time_text = sprintf('%s:%s',h,mnt);
 time_text_length = length(time_text)*8*font_scale;
 column_start = (128 - time_text_length)/2;
 
-display_write(oled, time_text, column_start=column_start, page_start=3, ...
+oled_write(oled, time_text, column_start=column_start, page_start=3, ...
     page_end=4, font_scale=2);
 
 % Set font scale and write timezone zone to screen
@@ -91,7 +91,7 @@ zone_text = char(zone);
 zone_text_length = length(zone_text)*8;
 column_start = (128 - zone_text_length)/2;
 
-display_write(oled, zone_text, column_start=column_start, page_start=6, ...
+oled_write(oled, zone_text, column_start=column_start, page_start=6, ...
     page_end=6);
 
 
@@ -100,7 +100,7 @@ tZone_text = char(tZone);
 tZone_text_length = length(tZone_text)*8;
 column_start = (128 - tZone_text_length)/2;
 
-display_write(oled, tZone_text, column_start=column_start, ...
+oled_write(oled, tZone_text, column_start=column_start, ...
     page_start=7, page_end=7);
 
 % ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -144,8 +144,8 @@ while ~stop
             column_start = (128 - date_txt_length)/2;
         end
         
-        clear_display(oled);
-        display_write(oled, date_text, column_start=column_start, ...
+        oled_clear(oled);
+        oled_write(oled, date_text, column_start=column_start, ...
             page_end=2, font_scale=font_scale);
         
         d = d_new;
@@ -159,7 +159,7 @@ while ~stop
         time_text_length = length(time_text)*8*font_scale;
         column_start = (128 - time_text_length)/2;
         
-        display_write(oled, time_text, column_start=column_start, ...
+        oled_write(oled, time_text, column_start=column_start, ...
             page_start=3, page_end=4, font_scale=font_scale);
         h = h_new;
         mnt = mnt_new;
@@ -169,7 +169,7 @@ while ~stop
         zone_text_length = length(zone_text)*8;
         column_start = (128 - zone_text_length)/2;
         
-        display_write(oled, zone_text, column_start=column_start, ...
+        oled_write(oled, zone_text, column_start=column_start, ...
             page_start=6, page_end=6);
         
         
@@ -178,7 +178,7 @@ while ~stop
         tZone_text_length = length(tZone_text)*8;
         column_start = (128 - tZone_text_length)/2;
         
-        display_write(oled, tZone_text, columnt_start=column_start, ...
+        oled_write(oled, tZone_text, columnt_start=column_start, ...
             page_start=7, page_end=7);
     elseif ~strcmp(mnt_new, mnt) || ~strcmp(h_new, h)
         % Update minutes and hours
@@ -186,7 +186,7 @@ while ~stop
         time_text_length = length(time_text)*8*font_scale;
         column_start = (128 - time_text_length)/2;
         
-        display_write(oled, time_text, column_start=column_start, ...
+        oled_write(oled, time_text, column_start=column_start, ...
             page_start=3, page_end=4, font_scale=2);
         h = h_new;
         mnt = mnt_new;
@@ -213,7 +213,7 @@ while ~stop
             column_start = (128 - date_txt_length)/2;
         end
         
-        display_write(oled, date_text, column_start=column_start, ...
+        oled_write(oled, date_text, column_start=column_start, ...
             page_end=2);
         
         d = d_new;

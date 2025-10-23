@@ -16,10 +16,10 @@ For example, if you are making a thermostat project, your directory should look 
 .
 ├── thermostat.m       <------- YOUR SCRIPTS
 ├── ...
-├── initialize_oled.m
-├── display_write.m
-├── display_draw_image.m
-├── clear_display.m
+├── oled_init.m
+├── oled_write.m
+├── oled_draw.m
+├── oled_clear.m
 └── assets
    ├── images
    └── characters
@@ -33,11 +33,11 @@ clearvars;
 port = "/dev/ttyUSB0";
 a = arduino(port, "Uno", Libraries="I2C");
 
-oled = initialize_oled(a);
-display_write(oled, "Example Text", font_scale=2);
+oled = oled_init(a);
+oled_write(oled, "Example Text", font_scale=2);
 pause(10);
-clear_display(oled);
-display_draw_image(oled, path="assets/images/sample.png", min_threshold=10, max_threshold=100);
+oled_clear(oled);
+oled_draw(oled, path="assets/images/sample.png", min_threshold=10, max_threshold=100);
 ```
 
 Additional example scripts are included in the `examples/` directory to demonstrate the API.

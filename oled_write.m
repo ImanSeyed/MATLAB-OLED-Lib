@@ -1,5 +1,5 @@
-function display_write(oled, text, options)
-% display_write - Write text on the display
+function oled_write(oled, text, options)
+% oled_write - Write text on the display
 %
 %  This function writes text to OLED screen using page addressing mode.
 %  OLED display memory is divided into 8 horizontal "pages", each 8 pixels

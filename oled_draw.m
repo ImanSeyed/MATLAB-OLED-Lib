@@ -1,5 +1,5 @@
-function display_draw_image(oled, options)
-% display_draw_image - Draw image on the display
+function oled_draw(oled, options)
+% oled_draw - Draw image on the display
 %
 %  This function reads an image, converts it to grayscale, and then 
 %  displays it on the OLED screen using I2C communication.
