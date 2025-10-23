@@ -1,5 +1,5 @@
-function clear_display(oled)
-% clear_display - Clear the entire OLED display
+function oled_clear(oled)
+% olead_clear - Clear the entire OLED display
 %
 %  Input Arguments
 %    oled - OLED I2C device object

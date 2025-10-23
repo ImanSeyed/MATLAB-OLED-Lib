@@ -1,4 +1,4 @@
-function a = auto_connect_arduino()
+function a = arduino_auto_connect()
     % Find any available and connected serial ports
     available_ports = serialportlist("available");
     

@@ -8,7 +8,7 @@ clearvars;
 addpath(fileparts(fileparts(mfilename('fullpath'))));
 
 try
-    a = auto_connect_arduino();
+    a = arduino_auto_connect();
     
     % Initialize explicitly
     % a = arduino(port, ...);
@@ -18,13 +18,13 @@ catch ME
 end
 
 % Initialize OLED device
-oled = initialize_oled(a);
+oled = oled_init(a);
 
 % Include every supported character
 test_string = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ:+-';
 
 % Test writing on the screen
-display_write(oled, test_string)
+oled_write(oled, test_string)
 pause(5);
 
-clear_display(oled);
+oled_clear(oled);

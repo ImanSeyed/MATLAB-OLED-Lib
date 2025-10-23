@@ -8,7 +8,7 @@ clearvars;
 addpath(fileparts(fileparts(mfilename('fullpath'))));
 
 try
-    a = auto_connect_arduino();
+    a = arduino_auto_connect();
     
     % Initialize explicitly
     % a = arduino(port, ...);
@@ -18,10 +18,10 @@ catch ME
 end
 
 % Initialize OLED device
-oled = initialize_oled(a);
+oled = oled_init(a);
 
 % Test drawing an image on the screen
-display_draw_image(oled, path="../assets/images/sample.png");
+oled_draw(oled, path="../assets/images/sample.png");
 pause(5);
 
-clear_display(oled);
+oled_clear(oled);
